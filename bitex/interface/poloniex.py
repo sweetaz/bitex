@@ -48,6 +48,7 @@ class Poloniex(RESTInterface):
                 'USDT_LTC', 'USDT_NXT', 'USDT_REP', 'USDT_STR', 'USDT_XMR', 'USDT_XRP', 'USDT_ZEC',
                 'XMR_BCN', 'XMR_BLK', 'XMR_BTCD', 'XMR_DASH', 'XMR_LTC', 'XMR_MAID', 'XMR_NXT',
                 'XMR_ZEC']
+
     # Public Endpoints
     @check_and_format_pair
     def ticker(self, pair, *args, **kwargs):
