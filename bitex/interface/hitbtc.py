@@ -99,3 +99,10 @@ class HitBTC(RESTInterface):
     def wallet(self, *args, **kwargs):
         """Return the account's wallet."""
         return self.request('balance', authenticate=True, params=kwargs)
+
+    def _payout(self, **kwargs):
+        return self.request('payment/payout', authenticate=True, verb='POST',
+                            params=kwargs)
+
+    def withdraw(self, currency, amount, address):
+        return self._payout(amount=amount, currency_code=currency, address=address)

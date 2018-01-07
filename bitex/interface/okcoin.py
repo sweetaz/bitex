@@ -87,3 +87,10 @@ class OKCoin(RESTInterface):
     def wallet(self, *args, **kwargs):
         """Return the account's wallet."""
         return self.request('userinfo.do', authenticate=True, params=kwargs)
+
+    def withdraw(self, currency, amount, address):
+        payload={'symbol': currency,
+                 'withdraw_address': address,
+                 'withdraw_amount': amount}
+        return self.request('withdraw.do', authenticate=True, params=payload)
+

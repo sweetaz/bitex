@@ -65,12 +65,12 @@ class Kraken(RESTInterface):
     @check_and_format_pair
     def ask(self, pair, price, size, *args, **kwargs):
         """Place an ask order."""
-        return self._place_order(pair, price, size, 'sell', **kwargs)
+        return self._place_order(pair, price, size, 'buy', **kwargs)
 
     @check_and_format_pair
     def bid(self, pair, price, size, *args, **kwargs):
         """Place a bid order."""
-        return self._place_order(pair, price, size, 'buy', **kwargs)
+        return self._place_order(pair, price, size, 'sell', **kwargs)
 
     def order_status(self, order_id, *args, **kwargs):
         """Return the order status of the order with given ID."""
@@ -93,3 +93,7 @@ class Kraken(RESTInterface):
     def wallet(self, *args, **kwargs):
         """Return the account's wallet."""
         return self.request('Balance', authenticate=True, data=kwargs)
+
+    def withdraw(self, currency, amount, address):
+        payload = {'asset': currency, 'key': address, 'amount': amount}
+        return self.request('Withdraw', authenticate=True, data=payload)

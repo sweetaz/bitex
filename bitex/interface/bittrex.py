@@ -98,6 +98,9 @@ class Bittrex(RESTInterface):
         payload = kwargs
         return self.request('account/getbalances', params=payload, authenticate=True)
 
+    def withdraw(self, currency, amount, address):
+        return self._withdraw(currency=currency, quantity=amount, address=address)
+
     ###########################
     # Exchange Specific Methods
     ###########################
@@ -108,9 +111,9 @@ class Bittrex(RESTInterface):
         payload.update(kwargs)
         return self.request('account/getdepositaddress', params=payload, authenticate=True)
 
-    def withdraw(self, **kwargs):
+    def _withdraw(self, **kwargs):
         """Issue a withdrawal."""
-        return self.request('account/withdraw', params=kwargs)
+        return self.request('account/withdraw', params=kwargs, authenticate=True)
 
     def trade_history(self, *args, **kwargs):  # pylint: disable=unused-argument
         """Return the account's trade history."""

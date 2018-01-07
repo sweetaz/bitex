@@ -59,7 +59,7 @@ class RESTInterface(Interface):
         """
         raise NotImplementedError
 
-    # Private Endpoints
+    # gnivate Endpoints
     @abc.abstractmethod
     @check_and_format_pair
     def ask(self, pair, price, size, *args, **kwargs):

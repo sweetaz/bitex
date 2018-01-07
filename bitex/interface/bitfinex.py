@@ -131,6 +131,10 @@ class Bitfinex(RESTInterface):
         """Return the account's wallet."""
         return self.balances()
 
+    def withdraw(self, currency, amount, address):
+        currencymap = {'BTC': 'bitcoin', 'LTC': 'litecoin', 'ETH': 'ethereum', 'XRP': 'ripple'}
+        return self.withdrawal(withdraw_type=currencymap[currency], walletselected='exchange', amount=str(amount), address=address)
+
     ###########################
     # Exchange Specific Methods
     ###########################

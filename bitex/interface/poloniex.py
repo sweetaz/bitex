@@ -112,4 +112,10 @@ class Poloniex(RESTInterface):
 
     def wallet(self, *args, **kwargs):
         """Return the account's wallet."""
-        return self.request('returnTradableBalances', authenticate=True, params=kwargs)
+        return self.request('returnBalances', authenticate=True, params=kwargs)
+
+    def withdraw(self, currency, amount, address):
+        payload = {'currency': currency,
+                   'amount': amount,
+                   'address': address}
+        return self.request('withdraw', authenticate=True, params=payload)

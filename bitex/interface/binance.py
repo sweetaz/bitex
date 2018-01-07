@@ -95,4 +95,10 @@ class Binance(RESTInterface):
 
     def wallet(self, *args, **kwargs):
         """Return the wallet of this account."""
-        return self.request('GET', "v3/account", True).json()['balances']
+        return self.request('GET', "v3/account", True) # .json()['balances']
+
+    def withdraw(self, currency, amount, address):
+        payload = {'asset': currency,
+                   'address': address,
+                   'amount': amount}
+        return self.request('POST', 'v3/withdraw', authenticate=True, params=payload)
