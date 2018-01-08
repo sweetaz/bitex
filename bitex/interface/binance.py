@@ -56,8 +56,8 @@ class Binance(RESTInterface):
     def _place_order(self, pair, price, size, side, *args, **kwargs):
         payload = {'symbol': pair,
                    'side': side,
-                   'type': "LIMIT", # limit-maker won't accpet taker orders
-                   'timeInForce': 'GTC' # GTC=Good-til-cancelled, IOC=Immediate-or-kill, FOK=fill-or-kill
+                   'type': "LIMIT",       # limit-maker won't accpet taker orders
+                   'timeInForce': 'GTC',  # GTC=Good-til-cancelled, IOC=Immediate-or-kill, FOK=fill-or-kill
                    'price': price,
                    'quantity': size}
         payload.update(kwargs)
