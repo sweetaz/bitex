@@ -96,9 +96,7 @@ class RESTAPI(BaseAPI):
         :return: request.Response() object
         """
         self.check_auth_requirements()
-        # request_kwargs['method'] = method_verb  # needed for OKCoin  #but fucks everything else
         request_kwargs = self.sign_request_kwargs(endpoint, **request_kwargs)
-        # del(request_kwargs['method'])  # needed for OKCoin
         return self._query(method_verb, **request_kwargs)
 
     def public_query(self, method_verb, endpoint, **request_kwargs):

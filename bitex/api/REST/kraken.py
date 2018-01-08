@@ -21,7 +21,7 @@ class KrakenREST(RESTAPI):
     """Kraken REST API class."""
 
     def __init__(self, key=None, secret=None, version=None,
-                 addr=None, timeout=30, config=None):
+                 addr=None, timeout=5, config=None):
         """Initialize the class instance."""
         addr = 'https://api.kraken.com' if not addr else addr
         version = '0' if not version else version
