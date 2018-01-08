@@ -81,12 +81,16 @@ class Poloniex(RESTInterface):
     @check_and_format_pair
     def ask(self, pair, price, size, *args, **kwargs):
         """Place an ask order."""
-        raise NotImplementedError
+        payload = {'currencyPair': pair, 'rate': price, 'amount': size}
+        payload.update(kwargs)
+        return self.request('buy', params=payload)
 
     @check_and_format_pair
     def bid(self, pair, price, size, *args, **kwargs):
         """Place a bid order."""
-        raise NotImplementedError
+        payload = {'currencyPair': pair, 'rate': price, 'amount': size}
+        payload.update(kwargs)
+        return self.request('sell', params=payload)
 
     def order_status(self, order_id, *args, **kwargs):
         """Return the order status of the order with given ID."""

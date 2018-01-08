@@ -100,8 +100,8 @@ class Bitfinex(RESTInterface):
 
     def _place_order(self, pair, price, size, side, **kwargs):
         """Place an order with the given parameters."""
-        payload = {'symbol': pair, 'price': price, 'amount': size, 'side': side,
-                   'type': 'exchange-limit'}
+        payload = {'symbol': pair, 'price': str(price), 'amount': str(size), 'side': side,
+                   'type': 'exchange limit'}
         payload.update(kwargs)
         return self.new_order(pair, **payload)
 
