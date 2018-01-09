@@ -5,7 +5,7 @@ import logging
 # Import Homebrew
 from bitex.api.REST.kraken import KrakenREST
 from bitex.interface.rest import RESTInterface
-from bitex.utils import check_and_format_pair
+from bitex.utils import check_and_format_pair, check_and_format_response
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)
@@ -33,6 +33,7 @@ class Kraken(RESTInterface):
 
     # Public Endpoints
     # pylint: disable=arguments-differ
+    @check_and_format_response
     @check_and_format_pair
     def ticker(self, *pairs, **kwargs):
         """Return the ticker for the given pair."""

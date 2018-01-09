@@ -5,6 +5,7 @@ import logging
 # Import Homebrew
 from bitex.api.REST.binance import BinanceREST
 from bitex.interface.rest import RESTInterface
+from bitex.utils import check_and_format_response
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)
@@ -34,6 +35,7 @@ class Binance(RESTInterface):
         pairs = [entry['symbol'] for entry in r['symbols']]
         return pairs
 
+    @check_and_format_response
     def ticker(self, pair, *args, **kwargs):
         """Return the ticker for the given pair."""
         payload = {'symbol': pair}

@@ -6,6 +6,7 @@ from functools import wraps
 # Import Homebrew
 from bitex.exceptions import UnsupportedEndpointError
 from bitex.pairs import PairFormatter
+from bitex.responses import ResponseFormatter
 
 
 def check_version_compatibility(**version_func_pairs):
@@ -72,3 +73,23 @@ def load_configuration(fname):
     config = configparser.ConfigParser()
     config.read(fname)
     return config
+
+
+def check_and_format_response(func):
+    """Execute format_for() method if available, and assert that pair is supported by the exchange.
+
+    When using this decorator, make sure that the first positional argument of
+    the wrapped method is the pair, otherwise behaviour is undefined.
+    """
+    @wraps(func)
+    def wrapped(self, *args, **kwargs):
+        """Wrap function."""
+        pair, *_ = args
+        result = func(self, *args, **kwargs)
+        try:
+            if isinstance(args[0], ResponseFormatter):
+                result = pair.format_response_for(result, func.__name__, self.name)
+        except IndexError:
+            pass
+        return result
+    return wrapped

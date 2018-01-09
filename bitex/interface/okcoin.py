@@ -5,7 +5,7 @@ import logging
 # Import Homebrew
 from bitex.api.REST.okcoin import OKCoinREST
 from bitex.interface.rest import RESTInterface
-from bitex.utils import check_and_format_pair
+from bitex.utils import check_and_format_pair, check_and_format_response
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)
@@ -30,6 +30,7 @@ class OKCoin(RESTInterface):
                 'btc_cny', 'ltc_cny', 'eth_cny']
 
     # Public Endpoints
+    @check_and_format_response
     @check_and_format_pair
     def ticker(self, pair, *args, **kwargs):
         """Return the ticker for the given pair."""
