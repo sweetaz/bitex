@@ -6,6 +6,7 @@ import logging
 from bitex.api.REST.kraken import KrakenREST
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, check_and_format_response
+from requests.exceptions import HTTPError
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)
@@ -19,7 +20,8 @@ class Kraken(RESTInterface):
         super(Kraken, self).__init__('Kraken', KrakenREST(**api_kwargs))
 
     def _get_supported_pairs(self):
-        r = self.request('AssetPairs').json()['result']
+        r = self.request('AssetPairs').json()
+        r = r['result']
         return [r[k]['base'] + r[k]['quote'] if r[k]['base'] != 'BCH'
                 else k for k in r]
 
@@ -31,6 +33,12 @@ class Kraken(RESTInterface):
                                                authenticate=True, **req_kwargs)
         return super(Kraken, self).request('GET', 'public/' + endpoint, **req_kwargs)
 
+    def check_for_error(self, response):
+        """Check a response for errors"""
+        data = response.json()
+        if len(data['error']) > 0:
+            raise HTTPError(data)
+
     # Public Endpoints
     # pylint: disable=arguments-differ
     @check_and_format_response
@@ -41,6 +49,7 @@ class Kraken(RESTInterface):
         payload.update(kwargs)
         return self.request('Ticker', params=payload)
 
+    @check_and_format_response
     @check_and_format_pair
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""

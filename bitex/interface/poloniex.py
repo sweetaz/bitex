@@ -56,6 +56,7 @@ class Poloniex(RESTInterface):
         """Return the ticker for the given pair."""
         return self.request('returnTicker', params=kwargs)
 
+    @check_and_format_response
     @check_and_format_pair
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""

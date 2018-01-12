@@ -42,6 +42,7 @@ class Binance(RESTInterface):
         payload.update(kwargs)
         return self.request('GET', 'v1/ticker/24hr', params=payload)
 
+    @check_and_format_response
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""
         payload = {'symbol': pair}

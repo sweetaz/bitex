@@ -47,6 +47,7 @@ class ResponseFormatter(PairFormatter):
         else:
             raise HTTPError(response=response)
 
+    #-- ticker() ----
     @staticmethod
     def kraken_ticker_response_formatter(pair, response):
         return response['result'][pair]
@@ -58,3 +59,56 @@ class ResponseFormatter(PairFormatter):
     @staticmethod
     def poloniex_ticker_response_formatter(pair, response):
         return response[pair]
+
+    #-- order_book() ----
+    @staticmethod
+    def kraken_order_book_formatter(pair, response):
+        pair = list(response['result'].keys())[0]
+        result = {'bids': [], 'asks': []}
+        for k in result:
+            result[k].extend([{'price': float(i[0]), 'amount': float(i[1])} for i in response['result'][pair][k]])
+        return result
+
+    @staticmethod
+    def bittrex_order_book_response_formatter(pair, response):
+        result = {'bids': [], 'asks': []}
+        keymap = {'bids': 'buy', 'asks': 'sell'}
+        for k in keymap:
+            result[k].extend([{'price': i['Rate'], 'amount': i['Quantity']} for i in response['result'][keymap[k]]])
+        return result
+
+    @staticmethod
+    def bitfinex_order_book_response_formatter(pair, response):
+        result = {'bids': [], 'asks': []}
+        for k in result:
+            result[k].extend([{'price': float(i['price']), 'amount': float(i['amount'])} for i in response[k]])
+        return result
+
+    @staticmethod
+    def hitbtc_order_book_response_formatter(pair, response):
+        result = {'bids': [], 'asks': []}
+        for k in result:
+            result[k].extend([{'price': float(i[0]), 'amount': float(i[1])} for i in response[k]])
+        return result
+
+    @staticmethod
+    def okcoin_order_book_response_formatter(pair, response):
+        result = {'bids': [], 'asks': []}
+        for k in result:
+            result[k].extend([{'price': i[0], 'amount': i[1]} for i in response[k]])
+        return result
+
+    @staticmethod
+    def binance_order_book_response_formatter(pair, response):
+        result = {'bids': [], 'asks': []}
+        for k in result:
+            result[k].extend([{'price': float(i[0]), 'amount': float(i[1])} for i in response[k]])
+        return result
+
+    @staticmethod
+    def poloniex_order_book_response_formatter(pair, response):
+        result = {'bids': [], 'asks': []}
+        for k in result:
+            result[k].extend([{'price': float(i[0]), 'amount': i[1]} for i in response[k]])
+        return result
+

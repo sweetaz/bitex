@@ -38,6 +38,7 @@ class OKCoin(RESTInterface):
         payload.update(kwargs)
         return self.request('ticker.do', params=payload)
 
+    @check_and_format_response
     @check_and_format_pair
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""

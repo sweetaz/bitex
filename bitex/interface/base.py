@@ -83,5 +83,11 @@ class Interface(metaclass=abc.ABCMeta):
         :return: :class:`requests.Response() Obj`
         """
         if authenticate:
-            return self.REST.private_query(verb, endpoint, **req_kwargs)
-        return self.REST.public_query(verb, endpoint, **req_kwargs)
+            response = self.REST.private_query(verb, endpoint, **req_kwargs)
+        else:
+            response = self.REST.public_query(verb, endpoint, **req_kwargs)
+        self.check_for_error(response)
+        return response
+
+    def check_for_error(self, response):
+        response.raise_for_status()
