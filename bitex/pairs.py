@@ -50,7 +50,8 @@ class PairFormatter:
                            'GDAX':                  self.gdax_formatter,
                            'ITBit':                 self.itbit_formatter,
                            'OKCoin':                self.okcoin_formatter,
-                           'C-CEX':                 self.ccex_formatter,
+                           'OKEX':                  self.okex_formatter,
+                           'CCEX':                  self.ccex_formatter,
                            'Cryptopia':             self.cryptopia_formatter,
                            'Gemini':                self.gemini_formatter,
                            'The Rock Trading Ltd.': self.rocktrading_formatter,
@@ -146,6 +147,11 @@ class PairFormatter:
     @staticmethod
     def okcoin_formatter(base, quote):
         """Format currencies for OKCoin."""
+        return base.lower() + '_' + quote.lower()
+
+    @staticmethod
+    def okex_formatter(base, quote):
+        """Format currencies for OKEX."""
         return base.lower() + '_' + quote.lower()
 
     @staticmethod

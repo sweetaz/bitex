@@ -7,6 +7,7 @@ from bitex.api.REST.bittrex import BittrexREST
 
 from bitex.interface.rest import RESTInterface
 from bitex.utils import check_and_format_pair, check_and_format_response
+from requests.exceptions import HTTPError
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)
@@ -29,6 +30,12 @@ class Bittrex(RESTInterface):
         r = self.pairs()
         pairs = [item['MarketName'] for item in r.json()['result']]
         return pairs
+
+    def check_for_error(self, response):
+        """Check a response for errors"""
+        data = response.json()
+        if data['success'] is False:
+            raise HTTPError(data['message'])
 
     ###############
     # Basic Methods
@@ -91,6 +98,7 @@ class Bittrex(RESTInterface):
             results.append(r)
         return results if len(results) > 1 else results[0]
 
+    @check_and_format_response
     def wallet(self, currency=None, *args, **kwargs):  # pylint: disable=arguments-differ
         """Return the account wallet."""
         if currency:

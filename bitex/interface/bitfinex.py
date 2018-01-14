@@ -129,6 +129,7 @@ class Bitfinex(RESTInterface):
             results.append(r)
         return results if len(results) > 1 else results[0]
 
+    @check_and_format_response
     def wallet(self, *args, **kwargs):
         """Return the account's wallet."""
         return self.balances()

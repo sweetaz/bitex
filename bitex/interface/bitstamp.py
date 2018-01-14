@@ -27,7 +27,9 @@ class Bitstamp(RESTInterface):
     def _get_supported_pairs(self):
         """Return a list of supported pairs."""
         return ['btceur', 'btcusd', 'eurusd', 'xrpusd', 'xrpeur', 'xrpbtc',
-                'ltcusd', 'ltceur', 'ltcbtc']
+                'ltcusd', 'ltceur', 'ltcbtc',
+                'ethusd', 'etheur', 'ethbtc', 
+                'bchusd', 'bcheur', 'bchbtc']
 
     def request(self, endpoint, authenticate=False, **kwargs):
         """Generate a request to the API."""

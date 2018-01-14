@@ -97,6 +97,7 @@ class Binance(RESTInterface):
 
         return results if len(results) > 1 else results[0]
 
+    @check_and_format_response
     def wallet(self, *args, **kwargs):
         """Return the wallet of this account."""
         return self.request('GET', "v3/account", True) # .json()['balances']

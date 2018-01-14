@@ -16,7 +16,8 @@ class ResponseFormatter(PairFormatter):
                               'GDAX':                  'gdax_{}_response_formatter',
                               'ITBit':                 'itbit_{}_response_formatter',
                               'OKCoin':                'okcoin_{}_response_formatter',
-                              'C-CEX':                 'ccex_{}_response_formatter',
+                              'OKEX':                  'okex_{}_response_formatter',
+                              'CCEX':                  'ccex_{}_response_formatter',
                               'Cryptopia':             'cryptopia_{}_response_formatter',
                               'Gemini':                'gemini_{}_response_formatter',
                               'The Rock Trading Ltd.': 'rocktrading_{}_response_formatter',
@@ -62,8 +63,7 @@ class ResponseFormatter(PairFormatter):
 
     #-- order_book() ----
     @staticmethod
-    def kraken_order_book_formatter(pair, response):
-        pair = list(response['result'].keys())[0]
+    def kraken_order_book_response_formatter(pair, response):
         result = {'bids': [], 'asks': []}
         for k in result:
             result[k].extend([{'price': float(i[0]), 'amount': float(i[1])} for i in response['result'][pair][k]])
@@ -99,6 +99,13 @@ class ResponseFormatter(PairFormatter):
         return result
 
     @staticmethod
+    def okex_order_book_response_formatter(pair, response):
+        result = {'bids': [], 'asks': []}
+        for k in result:
+            result[k].extend([{'price': i[0], 'amount': i[1]} for i in response[k]])
+        return result
+
+    @staticmethod
     def binance_order_book_response_formatter(pair, response):
         result = {'bids': [], 'asks': []}
         for k in result:
@@ -112,3 +119,59 @@ class ResponseFormatter(PairFormatter):
             result[k].extend([{'price': float(i[0]), 'amount': i[1]} for i in response[k]])
         return result
 
+    @staticmethod
+    def bitstamp_order_book_response_formatter(pair, response):
+        result = {'bids': [], 'asks': []}
+        for k in result:
+            result[k].extend([{'price': float(i[0]), 'amount': float(i[1])} for i in response[k]])
+        return result
+
+    @staticmethod
+    def cryptopia_order_book_response_formatter(pair, response):
+        result = {'bids': [], 'asks': []}
+        keymap = {'bids': 'Buy', 'asks': 'Sell'}
+        for k in keymap:
+            result[k].extend([{'price': i['Price'], 'amount': i['Volume']} for i in response['Data'][keymap[k]]])
+        return result
+
+    @staticmethod
+    def ccex_order_book_response_formatter(pair, response):
+        result = {'bids': [], 'asks': []}
+        keymap = {'bids': 'buy', 'asks': 'sell'}
+        for k in keymap:
+            result[k].extend([{'price': i['Rate'], 'amount': i['Quantity']} for i in response['result'][keymap[k]]])
+        return result
+
+    #-- wallet() ----
+    @staticmethod
+    def binance_wallet_response_formatter(pair, response):
+        return {i['asset']: float(i['free']) for i in response['balances'] if float(i['free']) > 0.0}
+
+    @staticmethod
+    def bitfinex_wallet_response_formatter(pair, response):
+        return {i['currency'].upper(): float(i['amount']) for i in response if float(i['amount']) > 0.0}
+
+    @staticmethod
+    def bittrex_wallet_response_formatter(pair, response):
+        return {i['Currency']: i['Balance'] for i in response['result'] if i['Balance'] > 0.0}
+
+    @staticmethod
+    def poloniex_wallet_response_formatter(pair, response):
+        return {currency: float(response[currency]) for currency in response if float(response[currency]) > 0.0}
+
+    @staticmethod
+    def kraken_wallet_response_formatter(pair, response):
+        result = {}
+        currencymap = {'XXBT': 'BTC', 'XETH': 'ETH'}
+        for currency in response['result']:
+            if float(response['result'][currency]) > 0.0:
+                if currency in currencymap:
+                    result[currencymap[currency]] = float(response['result'][currency])
+                else:
+                    result[currency] = float(response['result'][currency])
+        return result
+
+    @staticmethod
+    def okex_wallet_response_formatter(pair, response):
+        result = response['info']['funds']['free']
+        return {currency.upper(): float(result[currency]) for currency in result if float(result[currency]) > 0.0}

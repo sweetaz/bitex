@@ -5,7 +5,8 @@ import logging
 # Import Homebrew
 from bitex.api.REST.cryptopia import CryptopiaREST
 from bitex.interface.rest import RESTInterface
-from bitex.utils import check_and_format_pair
+from bitex.utils import check_and_format_pair, check_and_format_response
+from requests.exceptions import HTTPError
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)
@@ -29,6 +30,7 @@ class Cryptopia(RESTInterface):
         """Return the ticker for the given pair."""
         return self.request('GET', 'GetMarket/' + pair, params=kwargs)
 
+    @check_and_format_response
     @check_and_format_pair
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""
@@ -38,6 +40,12 @@ class Cryptopia(RESTInterface):
     def trades(self, pair, *args, **kwargs):
         """Return the trades for the given pair."""
         return self.request('GET', 'GetMarketHistory/' + pair, params=kwargs)
+
+    def check_for_error(self, response):
+        """Check a response for errors"""
+        data = response.json()
+        if data['Success'] is False:
+            raise HTTPError(data['Error'])
 
     # Private Endpoints
     # pylint: disable=unused-argument
@@ -78,6 +86,7 @@ class Cryptopia(RESTInterface):
             results.append(r)
         return results if len(results) > 1 else results[0]
 
+    @check_and_format_response
     def wallet(self, *args, **kwargs):
         """Return the account's wallet."""
         return self.request('POST', 'GetBalance', params=kwargs,

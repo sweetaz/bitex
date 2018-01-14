@@ -5,7 +5,7 @@ import logging
 # Import Homebrew
 from bitex.api.REST.ccex import CCEXREST
 from bitex.interface.rest import RESTInterface
-from bitex.utils import check_and_format_pair
+from bitex.utils import check_and_format_pair, check_and_format_response
 
 # Init Logging Facilities
 log = logging.getLogger(__name__)
@@ -16,7 +16,7 @@ class CCEX(RESTInterface):
 
     def __init__(self, **api_kwargs):
         """Initialize Interface class instance."""
-        super(CCEX, self).__init__('C-CEX', CCEXREST(**api_kwargs))
+        super(CCEX, self).__init__('CCEX', CCEXREST(**api_kwargs))
 
     # pylint: disable=arguments-differ
     def request(self, endpoint, authenticate=False, **req_kwargs):
@@ -37,6 +37,7 @@ class CCEX(RESTInterface):
         """Return the ticker for the given pair."""
         return self.request('%s.json' % pair, params=kwargs)
 
+    @check_and_format_response
     @check_and_format_pair
     def order_book(self, pair, *args, **kwargs):
         """Return the order book for the given pair."""

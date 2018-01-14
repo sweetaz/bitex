@@ -85,9 +85,11 @@ def check_and_format_response(func):
     def wrapped(self, *args, **kwargs):
         """Wrap function."""
         pair, *_ = args
+        if 'pair' in kwargs:
+            pair = kwargs['pair']
         result = func(self, *args, **kwargs)
         try:
-            if isinstance(args[0], ResponseFormatter):
+            if isinstance(pair, ResponseFormatter):
                 result = pair.format_response_for(result, func.__name__, self.name)
         except IndexError:
             pass
