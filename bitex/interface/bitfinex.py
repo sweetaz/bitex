@@ -90,11 +90,13 @@ class Bitfinex(RESTInterface):
             return self.request('trades/%s' % pair, params=endpoint_kwargs)
         return self.request('trades/%s/hist' % pair, params=endpoint_kwargs)
 
+    @check_and_format_response
     @check_and_format_pair
     def ask(self, pair, price, size, *args, **kwargs):
         """Place an ask order with the given parameters."""
         return self._place_order(pair, price, size, 'sell', **kwargs)
 
+    @check_and_format_response
     @check_and_format_pair
     def bid(self, pair, price, size, *args, **kwargs):
         """Place a bid order with the given parameters."""

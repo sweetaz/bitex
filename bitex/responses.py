@@ -175,3 +175,21 @@ class ResponseFormatter(PairFormatter):
     def okex_wallet_response_formatter(pair, response):
         result = response['info']['funds']['free']
         return {currency.upper(): float(result[currency]) for currency in result if float(result[currency]) > 0.0}
+
+    #-- bid() ----
+    @staticmethod
+    def binance_bid_response_formatter(pair, response):
+        return response
+
+    @staticmethod
+    def bitfinex_bid_response_formatter(pair, response):
+        return response
+
+    #-- ask() ----
+    @staticmethod
+    def binance_ask_response_formatter(pair, response):
+        return response
+
+    @staticmethod
+    def bitfinex_ask_response_formatter(pair, response):
+        return response

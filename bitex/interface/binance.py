@@ -66,10 +66,12 @@ class Binance(RESTInterface):
         payload.update(kwargs)
         return self.request('POST', 'v3/order', authenticate=True, params=payload)
 
+    @check_and_format_response
     def ask(self, pair, price, size, *args, **kwargs):
         """Place an ask order."""
         return self._place_order(pair, price, size, "SELL", *args, **kwargs)
 
+    @check_and_format_response
     def bid(self, pair, price, size, *args, **kwargs):
         """Place a bid order."""
         return self._place_order(pair, price, size, "BUY", *args, **kwargs)
