@@ -114,6 +114,7 @@ class Bitfinex(RESTInterface):
         """Return the order status for the given id."""
         return self.request('order/status', authenticate=True, params={'order_id': order_id})
 
+    @check_and_format_response
     @check_version_compatibility(v1=v1_only_methods, v2=v2_only_methods)
     def open_orders(self, *args, **kwargs):
         """Return a list of open orders."""

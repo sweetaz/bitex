@@ -80,6 +80,7 @@ class Poloniex(RESTInterface):
             return self.request('buy', authenticate=True, params=payload)
         return self.request('sell', authenticate=True, params=payload)
 
+    @check_and_format_response
     @check_and_format_pair
     def ask(self, pair, price, size, *args, **kwargs):
         """Place an ask order."""
@@ -87,6 +88,7 @@ class Poloniex(RESTInterface):
         payload.update(kwargs)
         return self.request('buy', params=payload)
 
+    @check_and_format_response
     @check_and_format_pair
     def bid(self, pair, price, size, *args, **kwargs):
         """Place a bid order."""
@@ -100,6 +102,7 @@ class Poloniex(RESTInterface):
         payload.update(kwargs)
         return self.request('returnOrderTrades', authenticate=True, params=payload)
 
+    @check_and_format_response
     def open_orders(self, *args, **kwargs):
         """Return all open orders."""
         payload = {'currencyPair': 'all'}

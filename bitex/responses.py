@@ -193,3 +193,16 @@ class ResponseFormatter(PairFormatter):
     @staticmethod
     def bitfinex_ask_response_formatter(pair, response):
         return response
+
+    #-- open_orders() ----
+    @staticmethod
+    def bittrex_open_orders_response_formatter(pair, response):
+        return response['result']
+
+    @staticmethod
+    def kraken_open_orders_response_formatter(pair, response):
+        return response['result']['open']
+
+    @staticmethod
+    def poloniex_open_orders_response_formatter(pair, response):
+        return response[pair]

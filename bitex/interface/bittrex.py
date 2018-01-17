@@ -64,6 +64,7 @@ class Bittrex(RESTInterface):
         return self.request('public/getmarkethistory', params=payload)
 
     # Private Endpoints
+    @check_and_format_response
     @check_and_format_pair
     def ask(self, pair, price, size, *args, **kwargs):
         """Place an ask order."""
@@ -71,6 +72,7 @@ class Bittrex(RESTInterface):
         payload.update(kwargs)
         return self.request('market/selllimit', params=payload, authenticate=True)
 
+    @check_and_format_response
     @check_and_format_pair
     def bid(self, pair, price, size, *args, **kwargs):
         """Place a bid order."""
@@ -84,6 +86,7 @@ class Bittrex(RESTInterface):
         payload.update(kwargs)
         return self.request('account/getorder', params=payload, authenticate=True)
 
+    @check_and_format_response
     def open_orders(self, *args, **kwargs):
         """Return all open orders."""
         return self.request('market/getopenorders', params=kwargs, authenticate=True)

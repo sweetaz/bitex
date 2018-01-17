@@ -83,6 +83,7 @@ class Binance(RESTInterface):
         payload.update(kwargs)
         return self.request('GET', 'v3/order', authenticate=True, params=payload)
 
+    @check_and_format_response
     def open_orders(self, *args, **kwargs):
         """Return all open orders."""
         return self.request('GET', 'v3/openOrders', authenticate=True, params=kwargs)
