@@ -58,6 +58,12 @@ class Bitfinex(RESTInterface):
             return self.symbols().json()
         return requests.get('https://api.bitfinex.com/v1/symbols').json()
 
+    def check_for_error(self, response):
+        """Check a response for errors"""
+        data = response.json()
+        if len(data['error']) > 0:
+            raise HTTPError(data)
+
     ###############
     # Basic Methods
     ###############
@@ -105,7 +111,7 @@ class Bitfinex(RESTInterface):
     def _place_order(self, pair, price, size, side, **kwargs):
         """Place an order with the given parameters."""
         payload = {'symbol': pair, 'price': str(price), 'amount': str(size), 'side': side,
-                   'type': 'exchange limit'}
+                   'type': 'exchange limit', 'exchange': 'bitfinex'}
         payload.update(kwargs)
         return self.new_order(pair, **payload)
 
