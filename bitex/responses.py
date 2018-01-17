@@ -188,13 +188,23 @@ class ResponseFormatter(PairFormatter):
     @staticmethod
     def poloniex_bid_response_formatter(pair, response):
         #{'id': 7269362567, 'cid': 52221082673, 'cid_date': '2018-01-17', 'gid': None, 'symbol': 'ethbtc', 'exchange': 'bitfinex', 'price': '0.085178', 'avg_execution_price': '0.0', 'side': 'sell', 'type': 'exchange limit', 'timestamp': '1516199421.137453331', 'is_live': True, 'is_cancelled': False, 'is_hidden': False, 'oco_order': None, 'was_forced': False, 'original_amount': '0.1', 'remaining_amount': '0.1', 'executed_amount': '0.0', 'src': 'api', 'order_id': 7269362567}
-        return response['order_id']
+        return response
+
+    @staticmethod
+    def kraken_bid_response_formatter(pair, response):
+        #{'error': [], 'result': {'descr': {'order': 'sell 0.10000000 ETHXBT @ limit 0.08693'}, 'txid': ['OFJU3P-R2KMQ-JRKGKE']}}
+        return response['result']['txid']
 
     #-- ask() ----
     @staticmethod
+    def kraken_ask_response_formatter(pair, response):
+        #{'error': [], 'result': {'descr': {'order': 'sell 0.10000000 ETHXBT @ limit 0.08693'}, 'txid': ['OFJU3P-R2KMQ-JRKGKE']}}
+        return response['result']['txid']
+
+    @staticmethod
     def poloniex_ask_response_formatter(pair, response):
         #{'id': 7269362567, 'cid': 52221082673, 'cid_date': '2018-01-17', 'gid': None, 'symbol': 'ethbtc', 'exchange': 'bitfinex', 'price': '0.085178', 'avg_execution_price': '0.0', 'side': 'sell', 'type': 'exchange limit', 'timestamp': '1516199421.137453331', 'is_live': True, 'is_cancelled': False, 'is_hidden': False, 'oco_order': None, 'was_forced': False, 'original_amount': '0.1', 'remaining_amount': '0.1', 'executed_amount': '0.0', 'src': 'api', 'order_id': 7269362567}
-        return response['order_id']
+        return response
 
     @staticmethod
     def binance_ask_response_formatter(pair, response):
