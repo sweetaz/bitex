@@ -74,7 +74,7 @@ class Poloniex(RESTInterface):
     def check_for_error(self, response):
         """Check a response for errors"""
         data = response.json()
-        if len(data['error']) > 0:
+        if 'error' in data and len(data['error']) > 0:
             raise HTTPError(data)
 
     # Private Endpoints
