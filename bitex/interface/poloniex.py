@@ -71,6 +71,12 @@ class Poloniex(RESTInterface):
         payload.update(kwargs)
         return self.request('returnTradeHistory', params=payload)
 
+    def check_for_error(self, response):
+        """Check a response for errors"""
+        data = response.json()
+        if len(data['error']) > 0:
+            raise HTTPError(data)
+
     # Private Endpoints
     def _place_order(self, pair, price, size, side, **kwargs):
         """Place an order with the given parameters."""

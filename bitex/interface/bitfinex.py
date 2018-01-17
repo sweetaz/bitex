@@ -58,12 +58,6 @@ class Bitfinex(RESTInterface):
             return self.symbols().json()
         return requests.get('https://api.bitfinex.com/v1/symbols').json()
 
-    def check_for_error(self, response):
-        """Check a response for errors"""
-        data = response.json()
-        if len(data['error']) > 0:
-            raise HTTPError(data)
-
     ###############
     # Basic Methods
     ###############
