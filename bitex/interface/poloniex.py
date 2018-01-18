@@ -73,6 +73,7 @@ class Poloniex(RESTInterface):
 
     def check_for_error(self, response):
         """Check a response for errors"""
+        super().check_for_error(response)
         data = response.json()
         if 'error' in data and len(data['error']) > 0:
             raise HTTPError(data)

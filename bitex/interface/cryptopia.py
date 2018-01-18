@@ -43,6 +43,7 @@ class Cryptopia(RESTInterface):
 
     def check_for_error(self, response):
         """Check a response for errors"""
+        super().check_for_error(response)
         data = response.json()
         if data['Success'] is False:
             raise HTTPError(data['Error'])
