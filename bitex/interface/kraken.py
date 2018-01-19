@@ -85,9 +85,12 @@ class Kraken(RESTInterface):
         """Place a bid order."""
         return self._place_order(pair, price, size, 'sell', **kwargs)
 
+    @check_and_format_response
     def order_status(self, order_id, *args, **kwargs):
         """Return the order status of the order with given ID."""
-        raise NotImplementedError
+        payload = {'txid': order_id}
+        payload.update(kwargs)
+        return self.request('QueryOrders', authenticate=True, data=payload)
 
     @check_and_format_response
     def open_orders(self, *args, **kwargs):

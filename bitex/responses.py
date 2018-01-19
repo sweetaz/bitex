@@ -2,6 +2,7 @@
 
 from bitex.pairs import PairFormatter
 from requests.exceptions import HTTPError
+import requests
 
 class ResponseFormatter(PairFormatter):
 
@@ -43,10 +44,15 @@ class ResponseFormatter(PairFormatter):
 
     @staticmethod
     def basic_response_formatter(response):
-        if response.status_code == 200:
-            return response.json()
+        if isinstance(response, requests.Response):
+            if response.status_code == 200:
+                return response.json()
+            else:
+                raise HTTPError(response=response)
+        elif isinstance(response, dict):
+            return response
         else:
-            raise HTTPError(response=response)
+            raise RuntimeError(f'unknown response type ({response})')
 
     #-- ticker() ----
     @staticmethod
@@ -220,3 +226,21 @@ class ResponseFormatter(PairFormatter):
     @staticmethod
     def poloniex_open_orders_response_formatter(pair, response):
         return response[pair]
+
+    #-- order_status() ----
+    @staticmethod
+    def bittrex_order_status_response_formatter(pair, response):
+        return response['result']
+
+    @staticmethod
+    def kraken_order_status_response_formatter(pair, response):
+        return response['result']
+
+    #-- order_open() ----
+    @staticmethod
+    def bittrex_order_open_response_formatter(pair, response):
+        return response['IsOpen']
+
+    @staticmethod
+    def kraken_order_open_response_formatter(pair, response):
+        return not response[next(iter(response))]['status'] == 'closed'

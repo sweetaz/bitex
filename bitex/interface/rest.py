@@ -4,7 +4,7 @@ import logging
 import abc
 
 # Import Homebrew
-from bitex.utils import check_and_format_pair
+from bitex.utils import check_and_format_pair, check_and_format_response
 from bitex.interface.base import Interface
 
 # Init Logging Facilities
@@ -134,3 +134,7 @@ class RESTInterface(Interface):
         :return: :class:`requests.Response()` object.
         """
         raise NotImplementedError
+
+    @check_and_format_response
+    def order_open(self, order_id, *args, **kwargs):
+        return self.order_status(order_id, *args, **kwargs)

@@ -81,6 +81,7 @@ class Bittrex(RESTInterface):
         payload.update(kwargs)
         return self.request('market/buylimit', params=payload, authenticate=True)
 
+    @check_and_format_response
     def order_status(self, order_id, *args, **kwargs):
         """Return order status of order with given id."""
         payload = {'uuid': order_id}
