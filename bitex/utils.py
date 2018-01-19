@@ -52,6 +52,8 @@ def check_and_format_pair(func):
         pair, *_ = args
         try:
             if isinstance(args[0], PairFormatter):
+                if 'pair' in kwargs:
+                    del(kwargs['pair'])
                 pair = pair.format_for(self.name)
                 args = list(args)
                 args[0] = pair
