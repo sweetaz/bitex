@@ -52,8 +52,6 @@ def check_and_format_pair(func):
         pair, *_ = args
         try:
             if isinstance(args[0], PairFormatter):
-                if 'pair' in kwargs:
-                    del(kwargs['pair'])
                 pair = pair.format_for(self.name)
                 args = list(args)
                 args[0] = pair
@@ -80,14 +78,14 @@ def load_configuration(fname):
 def check_and_format_response(func):
     @wraps(func)
     def wrapped(self, *args, **kwargs):
-        if 'pair' in kwargs:
-            pair = kwargs['pair']
+        if 'formatter' in kwargs:
+            formatter = kwargs['formatter']
         else:
-            raise RuntimeError(f'Could not find pair in kwargs ({kwargs})')
+            raise RuntimeError(f'Could not find formatter in kwargs ({kwargs})')
         result = func(self, *args, **kwargs)
         try:
-            if isinstance(pair, ResponseFormatter):
-                result = pair.format_response_for(result, func.__name__, self.name)
+            if isinstance(formatter, ResponseFormatter):
+                result = formatter.format_response_for(result, func.__name__, self.name)
         except IndexError:
             pass
         return result
