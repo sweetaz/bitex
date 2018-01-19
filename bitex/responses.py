@@ -187,6 +187,11 @@ class ResponseFormatter(PairFormatter):
         #{'error': [], 'result': {'descr': {'order': 'sell 0.10000000 ETHXBT @ limit 0.08693'}, 'txid': ['OFJU3P-R2KMQ-JRKGKE']}}
         return response['result']['txid']
 
+    @staticmethod
+    def bittrex_bid_response_formatter(pair, response):
+        #{'success': True, 'message': '', 'result': {'uuid': '4d6cc896-5cbf-4708-9b9b-39a64bfd3ca6'}}
+        return response['result']['uuid']
+
     #-- ask() ----
     @staticmethod
     def kraken_ask_response_formatter(pair, response):
@@ -197,6 +202,11 @@ class ResponseFormatter(PairFormatter):
     def bitfinex_ask_response_formatter(pair, response):
         #{'id': 7269362567, 'cid': 52221082673, 'cid_date': '2018-01-17', 'gid': None, 'symbol': 'ethbtc', 'exchange': 'bitfinex', 'price': '0.085178', 'avg_execution_price': '0.0', 'side': 'sell', 'type': 'exchange limit', 'timestamp': '1516199421.137453331', 'is_live': True, 'is_cancelled': False, 'is_hidden': False, 'oco_order': None, 'was_forced': False, 'original_amount': '0.1', 'remaining_amount': '0.1', 'executed_amount': '0.0', 'src': 'api', 'order_id': 7269362567}
         return response['order_id']
+
+    @staticmethod
+    def bittrex_ask_response_formatter(pair, response):
+        #{'success': True, 'message': '', 'result': {'uuid': '4d6cc896-5cbf-4708-9b9b-39a64bfd3ca6'}}
+        return response['result']['uuid']
 
     #-- open_orders() ----
     @staticmethod
