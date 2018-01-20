@@ -24,10 +24,13 @@ class HitBTCREST(RESTAPI):
                  addr=None, timeout=5, config=None):
         """Initialize the class instance."""
         version = '1' if not version else version
-        addr = 'http://api.hitbtc.com/api' if not addr else addr
+        addr = 'https://api.hitbtc.com' if not addr else addr
         super(HitBTCREST, self).__init__(addr=addr, version=version,
                                          key=key, secret=secret,
                                          timeout=timeout, config=config)
+
+    def generate_uri(self, endpoint):
+        return '/api/' + self.version + '/' + endpoint
 
     def sign_request_kwargs(self, endpoint, **kwargs):
         """Sign the request."""
@@ -36,12 +39,12 @@ class HitBTCREST(RESTAPI):
 
         # prepare Payload arguments
         try:
-            params = kwargs['params']
+            params = dict(kwargs['params'])
         except KeyError:
             params = {}
         nonce = self.nonce()
-        params['nonce'] = nonce
         params['apikey'] = self.key
+        params['nonce'] = nonce
         path = self.generate_uri(endpoint) + '?' + urllib.parse.urlencode(params)
 
         # generate signature

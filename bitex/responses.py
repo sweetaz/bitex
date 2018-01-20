@@ -182,6 +182,16 @@ class ResponseFormatter(PairFormatter):
         result = response['info']['funds']['free']
         return {currency.upper(): float(result[currency]) for currency in result if float(result[currency]) > 0.0}
 
+    @staticmethod
+    def cryptopia_wallet_response_formatter(pair, response):
+        result = response['Data']
+        return {currency['Symbol']: currency['Available'] for currency in result if currency['Available'] > 0.0}
+
+    @staticmethod
+    def hitbtc_wallet_response_formatter(pair, response):
+        result = response['balance']
+        return {currency['currency_code']: float(currency['cash']) for currency in result if float(currency['cash']) > 0.0}
+
     #-- bid() ----
     @staticmethod
     def bitfinex_bid_response_formatter(pair, response):

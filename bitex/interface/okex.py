@@ -85,6 +85,7 @@ class OKEX(RESTInterface):
         payload.update({'order_id': ','.join(list(order_ids))})
         return self.request('cancel_order.do', authenticate=True, params=payload)
 
+    @check_and_format_response
     def wallet(self, *args, **kwargs):
         """Return the account's wallet."""
         return self.request('userinfo.do', authenticate=True, params=kwargs)

@@ -51,9 +51,9 @@ class OKEXREST(RESTAPI):
         hash_sign = hashlib.md5(sign.encode('utf-8')).hexdigest().upper()
         payload['sign'] = hash_sign
         req_kwargs['data'] = payload
-        if kwargs['method'] == 'POST':
-            req_kwargs['headers'] = {"Content-Type": 'application/x-www-form-urlencoded'}
-            req_kwargs['data'] = '&'.join([k + '=' + payload[k] for k in sorted(payload.keys())])
+        # if kwargs['method'] == 'POST': # Assume this, since RESTInterface class assumes POST when authenticate=True
+        req_kwargs['headers'] = {"Content-Type": 'application/x-www-form-urlencoded'}
+        req_kwargs['data'] = '&'.join([k + '=' + payload[k] for k in sorted(payload.keys())])
 
         req_kwargs['url'] = self.generate_url(self.generate_uri(endpoint))
         return req_kwargs

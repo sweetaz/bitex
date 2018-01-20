@@ -58,7 +58,7 @@ def check_and_format_pair(func):
         except IndexError:
             pass
         if pair not in self._supported_pairs:
-            raise AssertionError("%s is not supported by this exchange!" % pair)
+            raise AssertionError("%s is not supported by %s exchange!" % (pair, self.name))
         return func(self, *args, **kwargs)
     return wrapped
 
