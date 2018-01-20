@@ -80,8 +80,9 @@ def check_and_format_response(func):
     def wrapped(self, *args, **kwargs):
         if 'formatter' in kwargs:
             formatter = kwargs['formatter']
+            del(kwargs['formatter'])
         else:
-            raise RuntimeError(f'Could not find formatter in kwargs ({kwargs})')
+            raise RuntimeError(f'You need a \'formatter=\' kwarg in your \'{func.__name__}\' call (kwargs: {kwargs})')
         result = func(self, *args, **kwargs)
         try:
             if isinstance(formatter, ResponseFormatter):
